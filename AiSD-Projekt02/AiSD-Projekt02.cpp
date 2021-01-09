@@ -24,6 +24,9 @@ bool show_op = true;		//Wyswietlanie wszystkich operacji w konsoli
 void insertion_sort(vector <int> &numb);
 void bucket_sort(vector <int> &numb);
 void dbl_vector(vector <int> numb,vector <int> &numb2);
+void f_swap(int &a, int &b);
+int f_maxmin(vector <int> numb, bool lookformax);
+void display(vector <int> numb);
 
 int main()
 {
@@ -59,22 +62,46 @@ int main()
 	if (show_op)										//Wyswietlenie wczytanej tablicy liczb do konsoli
 	{
 		cout << "Numbers from file: ";
-		for (int i = 0; i < numbers.size(); i++)
-		{
-			cout << numbers[i] << "; ";
-		}
-		cout << endl;
+		display(numbers);
 	}
 
-	dbl_vector(numbers, numbers2);						//Kopiowanie wektora numbers
-	dbl_vector(numbers, numbers3);						//Kopiowanie wektora numbers x 2
+	dbl_vector(numbers, numbers2);
+	dbl_vector(numbers, numbers3);
 
+	/*PART 01 - Insertion Sort*/
+	insertion_sort(numbers2);
+	if (show_op)
+	{
+		cout << "Sorted numbers by insertion sort: " << endl;
+		display(numbers2);
+	}
+	/*End of part 01*/
 
-
+	/*PART 02 - Bucket Sort*/
+	bucket_sort(numbers3);
+	if (show_op)
+	{
+		cout << "Sorted numbers by bucket sort: " << endl;
+		display(numbers3);
+	}
+	/*End of part 02*/
 	return 0;
 }
 
-void dbl_vector(vector <int> numb,vector <int> &numb2)
+void insertion_sort(vector <int> &numb)
+{
+	for (int i = 1; i < numb.size(); i++)
+	{
+		for (int j = i; j > 0; j--) if (numb[j - 1] > numb[j]) f_swap(numb[j - 1], numb[j]);
+	}
+}
+
+void bucket_sort(vector <int> &numb)
+{
+
+}
+
+void dbl_vector(vector <int> numb, vector <int>& numb2)
 {
 	for (int i = 0; i < numb.size(); i++)
 	{
@@ -83,12 +110,35 @@ void dbl_vector(vector <int> numb,vector <int> &numb2)
 	if (show_op) cout << "Vector sucessfully doubled" << endl;
 }
 
-void insertion_sort()
+void f_swap(int &a, int &b)  //Funkcja zmieniajaca miejscami dwie liczby (poprzez podanie adresu liczby)
 {
-
+	int temp = a;           //Zmienna temp - przechowuje tymczasowa wartosc liczby a;
+	a = b;                  //Przypisanie zmiennej a watrosci z liczby b
+	b = temp;               //Przypisanie zmiennej b wartosci tymczasowej
 }
 
-void bucket_sort()
+int f_maxmin(vector <int> numb, bool lookformax)
 {
+	int temp_maxmin = numb[0];
+	if (!lookformax)
+	{
+		for (int i = 0; i < numb.size(); i++)
+		{
+			if (numb[i] < temp_maxmin) temp_maxmin = numb[i];
+		}
+	}
+	else
+	{
+		for (int i = 0; i < numb.size(); i++)
+		{
+			if (numb[i] > temp_maxmin) temp_maxmin = numb[i];
+		}
+	}
+	return temp_maxmin;
+}
 
+void display(vector <int> numb)
+{
+	for (int i = 0; i < numb.size(); i++) cout << numb[i] << " ";
+	cout << endl;
 }
