@@ -169,6 +169,7 @@ void bucket_sort(vector <int>  &list)
     }
 }
 
+
 void dbl_vector(vector <int> numb, vector <int>& numb2)     //Kopiowanie wektorow
 {
 	for (int i = 0; i < numb.size(); i++)
@@ -213,6 +214,6 @@ void display(vector <int> numb)             //Wypisywanie wektora do konsoli
 
 void printtofile(vector <int> numb)         //Wypisywanie wektora do pliku
 {
-	for (int i = 0; i < numb.size(); i++) output << numb[i] << " ";
+	for (int i = 0; i < numb.size(); i++) output << numb[i] << "; ";
 	output << endl;
 }
