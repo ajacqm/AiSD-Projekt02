@@ -35,6 +35,7 @@ int f_maxmin(vector <int> numb, bool lookformax);
 void display(vector <int> numb);
 void printtofile(vector <int> numb);
 void time_test();
+void time_test_2();
 
 int main()
 {
@@ -94,7 +95,8 @@ int main()
 	}
 	printtofile(numbers3);
 	/*End of part 02*/
-	//time_test();
+	time_test();
+	//time_test_2();
 	return 0;
 }
 
@@ -106,13 +108,13 @@ void time_test()
     vector <int> tab;
     vector <int> tab2;
     srand ((unsigned)time(NULL));
-    int T[10] = {100,500,1000,2000,5000,10000,20000,50000,100000,200000};
-    for(int i=0; i<10; i++)
+    int T[14] = {100,500,1000,2000,5000,10000,20000,40000,80000,100000,120000,160000,200000,400000};
+    for(int i=0; i<9; i++)
     {
         testout << i << "; " << T[i] << "; ";
         for(int j=0; j<T[i]; j++)
         {
-            z = rand() % 100;
+            z = rand() % 10000;
             tab.push_back(z);
             tab2.push_back(z);
         }
@@ -131,6 +133,54 @@ void time_test()
         tab.clear();
         tab2.clear();
     }
+}
+
+void time_test_2()
+{
+    DWORD t1,t2;
+    vector <int> tab;
+    vector <int> tab2;
+    //Najgorszy przypadek
+    for(int i=120000; i>0; i--)
+    {
+        tab.push_back(i);
+        tab2.push_back(i);
+    }
+    t1 = GetTickCount();
+    insertion_sort(tab);
+    t2 = GetTickCount() - t1;
+    //testout << t2 << "; ";
+    cout << "Czas wykonania insertion sort: " << t2;
+    cout << endl;
+    t1 = GetTickCount();
+    bucket_sort(tab2);
+    t2 = GetTickCount() - t1;
+    //testout << t2 << "; " << endl;
+    cout << "Czas wykonania bucket sort: " << t2;
+    cout << endl;
+    //Najlepszy przypadek
+    tab.clear();
+    tab2.clear();
+    for(int i=0; i<120000; i++)
+    {
+        tab.push_back(i);
+        tab2.push_back(i);
+    }
+    t1 = GetTickCount();
+    insertion_sort(tab);
+    t2 = GetTickCount() - t1;
+    //testout << t2 << "; ";
+    cout << "Czas wykonania insertion sort: " << t2;
+    cout << endl;
+    t1 = GetTickCount();
+    bucket_sort(tab2);
+    t2 = GetTickCount() - t1;
+    //testout << t2 << "; " << endl;
+    cout << "Czas wykonania bucket sort: " << t2;
+    cout << endl;
+    tab.clear();
+    tab2.clear();
+
 }
 
 void insertion_sort(vector <int> &numb)
