@@ -17,6 +17,7 @@ parametrem ustalonym wewnatrz programu*/
 #include <iostream>
 #include <vector>
 #include <algorithm>
+#include <ctime>
 #include <windows.h>
 
 using namespace std;
@@ -24,6 +25,7 @@ using namespace std;
 bool show_op = true;						//Wyswietlanie wszystkich operacji w konsoli
 string in_file_name = "input.txt";			//Nazwa pliku wejsciowego
 string out_file_name = "output.txt";		//Nazwa pliku wyjsciowego
+ofstream output(out_file_name.c_str());
 
 void insertion_sort(vector <int> &numb);
 void bucket_sort(vector <int> &list);
@@ -92,12 +94,43 @@ int main()
 	}
 	printtofile(numbers3);
 	/*End of part 02*/
+	//time_test();
 	return 0;
 }
 
 void time_test()
 {
-
+    ofstream testout("tests.txt");
+    DWORD t1,t2;
+    int z;
+    vector <int> tab;
+    vector <int> tab2;
+    srand ((unsigned)time(NULL));
+    int T[10] = {100,500,1000,2000,5000,10000,20000,50000,100000,200000};
+    for(int i=0; i<10; i++)
+    {
+        testout << i << "; " << T[i] << "; ";
+        for(int j=0; j<T[i]; j++)
+        {
+            z = rand() % 100;
+            tab.push_back(z);
+            tab2.push_back(z);
+        }
+        t1 = GetTickCount();
+        insertion_sort(tab);
+        t2 = GetTickCount() - t1;
+        testout << t2 << "; ";
+        cout << "Czas wykonania insertion sort: " << t2;
+        cout << endl;
+        t1 = GetTickCount();
+        bucket_sort(tab2);
+        t2 = GetTickCount() - t1;
+        testout << t2 << "; " << endl;
+        cout << "Czas wykonania bucket sort: " << t2;
+        cout << endl;
+        tab.clear();
+        tab2.clear();
+    }
 }
 
 void insertion_sort(vector <int> &numb)
@@ -136,7 +169,7 @@ void bucket_sort(vector <int>  &list)
     }
 }
 
-void dbl_vector(vector <int> numb, vector <int>& numb2)
+void dbl_vector(vector <int> numb, vector <int>& numb2)     //Kopiowanie wektorow
 {
 	for (int i = 0; i < numb.size(); i++)
 	{
@@ -152,7 +185,7 @@ void f_swap(int &a, int &b)  //Funkcja zmieniajaca miejscami dwie liczby (poprze
 	b = temp;               //Przypisanie zmiennej b wartosci tymczasowej
 }
 
-int f_maxmin(vector <int> numb, bool lookformax)
+int f_maxmin(vector <int> numb, bool lookformax)        //Wyszukiwanie najwiekszej liczby w wektorze (jezeli lookformax = false to wyszukuje minimalna)
 {
 	int temp_maxmin = numb[0];
 	if (!lookformax)
@@ -172,14 +205,14 @@ int f_maxmin(vector <int> numb, bool lookformax)
 	return temp_maxmin;
 }
 
-void display(vector <int> numb)
+void display(vector <int> numb)             //Wypisywanie wektora do konsoli
 {
 	for (int i = 0; i < numb.size(); i++) cout << numb[i] << " ";
 	cout << endl;
 }
 
-void printtofile(vector <int> numb)
+void printtofile(vector <int> numb)         //Wypisywanie wektora do pliku
 {
-	ofstream output(out_file_name.c_str());										//Deklaracja pliku wyjœciowego
 	for (int i = 0; i < numb.size(); i++) output << numb[i] << " ";
+	output << endl;
 }
